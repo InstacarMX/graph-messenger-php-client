@@ -61,7 +61,15 @@ class GraphClient
         $classDiscriminatorResolver = new ClassDiscriminatorFromClassMetadata($classMetadataFactory);
         $serializer = new Serializer(
             [
-                new ObjectNormalizer($classMetadataFactory, $nameConverter, null, $propertyTypeExtractor, $classDiscriminatorResolver),
+                new ObjectNormalizer(
+                    $classMetadataFactory,
+                    $nameConverter,
+                    null,
+                    $propertyTypeExtractor,
+                    $classDiscriminatorResolver,
+                    null,
+                    [ObjectNormalizer::SKIP_NULL_VALUES => true],
+                ),
                 new ArrayDenormalizer(),
             ],
             ['json' => new JsonEncoder()],
