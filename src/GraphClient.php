@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Instacar\GraphMessengerApi;
 
 use Instacar\GraphMessengerApi\Exception\GraphException;
@@ -10,9 +12,9 @@ use Instacar\Psr7Utils\Serializer\ResponseDeserializer;
 use Instacar\Psr7Utils\Serializer\ResponseDeserializerInterface;
 use Instacar\Psr7Utils\Utils\RequestUtils;
 use Instacar\Psr7Utils\Utils\UriUtils;
-use LogicException;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Request;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
@@ -28,7 +30,9 @@ use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -61,6 +65,7 @@ class GraphClient
         $classDiscriminatorResolver = new ClassDiscriminatorFromClassMetadata($classMetadataFactory);
         $serializer = new Serializer(
             [
+                new DateTimeNormalizer(),
                 new ObjectNormalizer(
                     $classMetadataFactory,
                     $nameConverter,
@@ -68,7 +73,7 @@ class GraphClient
                     $propertyTypeExtractor,
                     $classDiscriminatorResolver,
                     null,
-                    [ObjectNormalizer::SKIP_NULL_VALUES => true],
+                    [AbstractObjectNormalizer::SKIP_NULL_VALUES => true],
                 ),
                 new ArrayDenormalizer(),
             ],
@@ -86,10 +91,10 @@ class GraphClient
     public static function createDefault(string $jwtToken): static
     {
         if (!class_exists(SymfonyHttpClient::class)) {
-            throw new LogicException('You must install the Symfony HTTP Client component.' . \PHP_EOL . 'Please, execute "composer require symfony/http-client" in your project root');
+            throw new \LogicException('You must install the Symfony HTTP Client component.' . \PHP_EOL . 'Please, execute "composer require symfony/http-client" in your project root');
         }
         if (!class_exists(Request::class)) {
-            throw new LogicException('You must install the Nyholm PSR-7 implementation.' . \PHP_EOL . 'Please, execute "composer require nyholm/psr7" in your project root');
+            throw new \LogicException('You must install the Nyholm PSR-7 implementation.' . \PHP_EOL . 'Please, execute "composer require nyholm/psr7" in your project root');
         }
 
         $httpClient = SymfonyHttpClient::create();
@@ -107,7 +112,11 @@ class GraphClient
      * @phpstan-param array<string, string> $params
      * @phpstan-param TRequestPayload|null $payload
      * @phpstan-param array<string, string|array<string>> $headers
+     *
      * @phpstan-return TResponsePayload
+     *
+     * @throws GraphException
+     * @throws ClientExceptionInterface
      */
     protected function sendJsonRequest(
         string $endpoint,
@@ -161,7 +170,10 @@ class GraphClient
      * @phpstan-template TPayload of object
      *
      * @phpstan-param class-string<TPayload> $responseClass
+     *
      * @phpstan-return TPayload
+     *
+     * @throws GraphException
      */
     private function parseJsonResponse(
         ResponseInterface $response,

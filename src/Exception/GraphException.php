@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Instacar\GraphMessengerApi\Exception;
 
 use Instacar\GraphMessengerApi\Model\Error;
