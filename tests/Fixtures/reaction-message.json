@@ -1,0 +1,9 @@
+{
+  "messaging_product": "whatsapp",
+  "to": "521111111111",
+  "type": "reaction",
+  "reaction": {
+    "message_id": "wamid.vwxyz",
+    "emoji": "\uD83D\uDE00"
+  }
+}

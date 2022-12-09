@@ -1,0 +1,9 @@
+{
+  "messaging_product": "whatsapp",
+  "to": "521111111111",
+  "type": "text",
+  "text": {
+    "body": "This is a test",
+    "preview_url": true
+  }
+}

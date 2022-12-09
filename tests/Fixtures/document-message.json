@@ -1,0 +1,10 @@
+{
+  "messaging_product": "whatsapp",
+  "to": "521111111111",
+  "type": "document",
+  "document": {
+    "id": "11111",
+    "filename": "test.pdf",
+    "caption": "This is a test document"
+  }
+}

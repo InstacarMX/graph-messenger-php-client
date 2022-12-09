@@ -1,0 +1,113 @@
+{
+  "messaging_product": "whatsapp",
+  "to": "521111111111",
+  "type": "template",
+  "template": {
+    "name": "test_template",
+    "language": {
+      "policy": "deterministic",
+      "code": "es"
+    },
+    "components": [
+      {
+        "type": "header",
+        "parameters": [
+          {
+            "type": "document",
+            "document": {
+              "id": "11111",
+              "filename": "test1.pdf"
+            }
+          },
+          {
+            "type": "image",
+            "image": {
+              "id": "22222"
+            }
+          },
+          {
+            "type": "video",
+            "video": {
+              "id": "33333"
+            }
+          },
+          {
+            "type": "document",
+            "document": {
+              "link": "https://example.com/document.pdf",
+              "filename": "test2.pdf"
+            }
+          },
+          {
+            "type": "image",
+            "image": {
+              "link": "https://example.com/image.jpg"
+            }
+          },
+          {
+            "type": "video",
+            "video": {
+              "link": "https://example.com/video.mp4"
+            }
+          }
+        ]
+      },
+      {
+        "type": "body",
+        "parameters": [
+          {
+            "type": "currency",
+            "currency": {
+              "code": "MXN",
+              "amount_1000": 50500,
+              "fallback_value": "$50.50"
+            }
+          },
+          {
+            "type": "date_time",
+            "date_time": {
+              "fallback_value": "14 de agosto del 2022"
+            }
+          },
+          {
+            "type": "text",
+            "text": {
+              "body": "test message",
+              "preview_url": true
+            }
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "sub_type": "quick_reply",
+        "index": 0,
+        "parameters": [
+          {
+            "type": "payload",
+            "payload": "test 1"
+          },
+          {
+            "type": "payload",
+            "payload": "test 2"
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "sub_type": "url",
+        "index": 1,
+        "parameters": [
+          {
+            "type": "text",
+            "text": "test 3"
+          },
+          {
+            "type": "text",
+            "text": "test 4"
+          }
+        ]
+      }
+    ]
+  }
+}

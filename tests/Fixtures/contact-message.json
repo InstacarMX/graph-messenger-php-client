@@ -1,0 +1,79 @@
+{
+  "messaging_product": "whatsapp",
+  "to": "521111111111",
+  "type": "contacts",
+  "contacts": [
+    {
+      "name": {
+        "formatted_name": "Sr. John Roe Doe 3th",
+        "first_name": "John",
+        "last_name": "Doe",
+        "middle_name": "Roe",
+        "prefix": "Sr.",
+        "suffix": "3th"
+      },
+      "birthday": "1990-01-01",
+      "org": {
+        "company": "Test Company LLC",
+        "department": "TI",
+        "title": "Test Company"
+      },
+      "addresses": [
+        {
+          "type": "HOME",
+          "country_code": "MX",
+          "country": "Mexico",
+          "zip": "12345",
+          "state": "Mexico City",
+          "city": "Mexico City",
+          "street": "1st Street"
+        }
+      ],
+      "emails": [
+        {
+          "type": "HOME",
+          "email": "john@example.com"
+        }
+      ],
+      "phones": [
+        {
+          "type": "HOME",
+          "phone": "522222222222",
+          "wa_id": "1111111111"
+        }
+      ],
+      "urls": [
+        {
+          "type": "HOME",
+          "url": "https://example.com/john"
+        }
+      ]
+    },
+    {
+      "name": {
+        "formatted_name": "Jane",
+        "first_name": "Jane"
+      },
+      "addresses": [
+        {
+          "street": "2nd Street"
+        }
+      ],
+      "emails": [
+        {
+          "email": "jane@example.com"
+        }
+      ],
+      "phones": [
+        {
+          "phone": "523333333333"
+        }
+      ],
+      "urls": [
+        {
+          "url": "https://example.com/jane"
+        }
+      ]
+    }
+  ]
+}
