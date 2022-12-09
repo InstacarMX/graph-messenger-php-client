@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Instacar\GraphMessengerApi\Test\Integration;
+namespace Instacar\GraphMessengerApi\Test\Unit;
 
 use Instacar\GraphMessengerApi\Test\Util\IterableUtil;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Address;

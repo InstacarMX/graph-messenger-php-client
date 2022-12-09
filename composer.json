@@ -1,5 +1,5 @@
 {
-  "name": "instacar/graph-messenger-api",
+  "name": "instacar/graph-messenger-client",
   "type": "library",
   "description": "A API Client to talk with the Graph Messenger API",
   "keywords": [
