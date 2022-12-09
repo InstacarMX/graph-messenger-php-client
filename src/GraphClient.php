@@ -36,7 +36,7 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-class GraphClient
+abstract class GraphClient
 {
     protected const BASE_URL = 'https://graph.facebook.com/v15.0/';
 
@@ -52,7 +52,7 @@ class GraphClient
 
     private string $jwtToken;
 
-    public function __construct(
+    final public function __construct(
         ClientInterface $client,
         RequestFactoryInterface $requestFactory,
         UriFactoryInterface $uriFactory,
