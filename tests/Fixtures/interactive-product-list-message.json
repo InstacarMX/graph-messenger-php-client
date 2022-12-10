@@ -1,0 +1,37 @@
+{
+  "messaging_product": "whatsapp",
+  "to": "521111111111",
+  "type": "interactive",
+  "interactive": {
+    "type": "product_list",
+    "header":{
+      "type": "text",
+      "text": "test header"
+    },
+    "body": {
+      "text": "test body"
+    },
+    "footer": {
+      "text": "test footer"
+    },
+    "action": {
+      "catalog_id": "11111",
+      "sections": [
+        {
+          "title": "section-1",
+          "product_items": [
+            { "product_retailer_id": "111" },
+            { "product_retailer_id": "222" }
+          ]
+        },
+        {
+          "title": "section-2",
+          "product_items": [
+            { "product_retailer_id": "333" },
+            { "product_retailer_id": "444" }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace Instacar\GraphMessengerApi\Test\Unit;
 
 use Instacar\GraphMessengerApi\Test\Util\IterableUtil;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Action\ButtonAction;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Action\ListAction;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Action\ProductAction;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Action\ProductListAction;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Address;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Body;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Button\ReplyButton;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Component\BodyComponent;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Component\HeaderComponent;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Component\QuickReplyButtonComponent;
@@ -15,6 +21,12 @@ use Instacar\GraphMessengerApi\WhatsApp\Model\Context;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Currency;
 use Instacar\GraphMessengerApi\WhatsApp\Model\DateTime;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Email;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Footer;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Header\TextHeader;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Interactive\InteractiveButton;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Interactive\InteractiveList;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Interactive\InteractiveProduct;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Interactive\InteractiveProductList;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Language;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Location;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Media\AudioMedia;
@@ -26,6 +38,7 @@ use Instacar\GraphMessengerApi\WhatsApp\Model\Message\AudioMessage;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Message\ContactMessage;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Message\DocumentMessage;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Message\ImageMessage;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Message\InteractiveMessage;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Message\LocationMessage;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Message\ReactionMessage;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Message\StickerMessage;
@@ -42,7 +55,12 @@ use Instacar\GraphMessengerApi\WhatsApp\Model\Parameter\ImageParameter;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Parameter\TextParameter;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Parameter\VideoParameter;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Phone;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Product;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Reaction;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Reply;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Row;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Section\ListSection;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Section\ProductListSection;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Template;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Text;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Url;
@@ -175,6 +193,169 @@ class WhatsAppClientTest extends TestCase
         $request = $mockResponse->getRequestOptions();
         $this->assertAuthorization($request);
         $this->assertJsonRequest('image-message.json', $request);
+
+        $this->assertEquals('whatsapp', $data->getMessagingProduct());
+
+        $contacts = IterableUtil::iterableToArray($data->getContacts());
+        $this->assertCount(1, $contacts);
+        $this->assertEquals('521111111111', $contacts[0]['input']);
+        $this->assertEquals('1111111111', $contacts[0]['wa_id']);
+
+        $messages = IterableUtil::iterableToArray($data->getMessages());
+        $this->assertCount(1, $messages);
+        $this->assertEquals('wamid.abcdef', $messages[0]['id']);
+    }
+
+    public function testInteractiveButtonMessages(): void
+    {
+        $mockResponse = new MockResponse('{"messaging_product": "whatsapp", "contacts": [{"input": "521111111111", "wa_id": "1111111111"}], "messages": [{"id": "wamid.abcdef"}]}');
+        $client = $this->mockClient($mockResponse);
+
+        $listAction = new ButtonAction();
+        $listAction->addButton(new ReplyButton(new Reply('111', 'test 1')));
+        $listAction->addButton(new ReplyButton(new Reply('222', 'test 2')));
+
+        $interactiveProduct = new InteractiveButton(
+            $listAction,
+            new Body('test body'),
+            new TextHeader('test header'),
+            new Footer('test footer'),
+        );
+        $message = new InteractiveMessage('521111111111', $interactiveProduct);
+
+        $data = $client->sendMessage('0000000000', $message);
+
+        $this->assertEquals('POST', $mockResponse->getRequestMethod());
+        $this->assertEquals('https://graph.facebook.com/v15.0/0000000000/messages', $mockResponse->getRequestUrl());
+
+        $request = $mockResponse->getRequestOptions();
+        $this->assertAuthorization($request);
+        $this->assertJsonRequest('interactive-button-message.json', $request);
+
+        $this->assertEquals('whatsapp', $data->getMessagingProduct());
+
+        $contacts = IterableUtil::iterableToArray($data->getContacts());
+        $this->assertCount(1, $contacts);
+        $this->assertEquals('521111111111', $contacts[0]['input']);
+        $this->assertEquals('1111111111', $contacts[0]['wa_id']);
+
+        $messages = IterableUtil::iterableToArray($data->getMessages());
+        $this->assertCount(1, $messages);
+        $this->assertEquals('wamid.abcdef', $messages[0]['id']);
+    }
+
+    public function testInteractiveListMessages(): void
+    {
+        $mockResponse = new MockResponse('{"messaging_product": "whatsapp", "contacts": [{"input": "521111111111", "wa_id": "1111111111"}], "messages": [{"id": "wamid.abcdef"}]}');
+        $client = $this->mockClient($mockResponse);
+
+        $listAction = new ListAction('test button');
+
+        $section1 = new ListSection('section-1');
+        $section1->addRow(new Row('111', 'row-1', 'test row'));
+        $section1->addRow(new Row('222', 'row-2'));
+        $listAction->addSection($section1);
+
+        $section2 = new ListSection('section-2');
+        $section2->addRow(new Row('333', 'row-3', 'another test row'));
+        $section2->addRow(new Row('444', 'row-4'));
+        $listAction->addSection($section2);
+
+        $interactiveList = new InteractiveList(
+            $listAction,
+            new Body('test body'),
+            new TextHeader('test header'),
+            new Footer('test footer'),
+        );
+        $message = new InteractiveMessage('521111111111', $interactiveList);
+
+        $data = $client->sendMessage('0000000000', $message);
+
+        $this->assertEquals('POST', $mockResponse->getRequestMethod());
+        $this->assertEquals('https://graph.facebook.com/v15.0/0000000000/messages', $mockResponse->getRequestUrl());
+
+        $request = $mockResponse->getRequestOptions();
+        $this->assertAuthorization($request);
+        $this->assertJsonRequest('interactive-list-message.json', $request);
+
+        $this->assertEquals('whatsapp', $data->getMessagingProduct());
+
+        $contacts = IterableUtil::iterableToArray($data->getContacts());
+        $this->assertCount(1, $contacts);
+        $this->assertEquals('521111111111', $contacts[0]['input']);
+        $this->assertEquals('1111111111', $contacts[0]['wa_id']);
+
+        $messages = IterableUtil::iterableToArray($data->getMessages());
+        $this->assertCount(1, $messages);
+        $this->assertEquals('wamid.abcdef', $messages[0]['id']);
+    }
+
+    public function testInteractiveProductMessages(): void
+    {
+        $mockResponse = new MockResponse('{"messaging_product": "whatsapp", "contacts": [{"input": "521111111111", "wa_id": "1111111111"}], "messages": [{"id": "wamid.abcdef"}]}');
+        $client = $this->mockClient($mockResponse);
+
+        $interactiveProduct = new InteractiveProduct(
+            new ProductAction('11111', '22222'),
+            new Body('test body'),
+            new Footer('test footer'),
+        );
+        $message = new InteractiveMessage('521111111111', $interactiveProduct);
+
+        $data = $client->sendMessage('0000000000', $message);
+
+        $this->assertEquals('POST', $mockResponse->getRequestMethod());
+        $this->assertEquals('https://graph.facebook.com/v15.0/0000000000/messages', $mockResponse->getRequestUrl());
+
+        $request = $mockResponse->getRequestOptions();
+        $this->assertAuthorization($request);
+        $this->assertJsonRequest('interactive-product-message.json', $request);
+
+        $this->assertEquals('whatsapp', $data->getMessagingProduct());
+
+        $contacts = IterableUtil::iterableToArray($data->getContacts());
+        $this->assertCount(1, $contacts);
+        $this->assertEquals('521111111111', $contacts[0]['input']);
+        $this->assertEquals('1111111111', $contacts[0]['wa_id']);
+
+        $messages = IterableUtil::iterableToArray($data->getMessages());
+        $this->assertCount(1, $messages);
+        $this->assertEquals('wamid.abcdef', $messages[0]['id']);
+    }
+
+    public function testInteractiveProductListMessages(): void
+    {
+        $mockResponse = new MockResponse('{"messaging_product": "whatsapp", "contacts": [{"input": "521111111111", "wa_id": "1111111111"}], "messages": [{"id": "wamid.abcdef"}]}');
+        $client = $this->mockClient($mockResponse);
+
+        $productListAction = new ProductListAction('11111');
+
+        $section1 = new ProductListSection('section-1');
+        $section1->addProductItem(new Product('111'));
+        $section1->addProductItem(new Product('222'));
+        $productListAction->addSection($section1);
+
+        $section2 = new ProductListSection('section-2');
+        $section2->addProductItem(new Product('333'));
+        $section2->addProductItem(new Product('444'));
+        $productListAction->addSection($section2);
+
+        $interactiveProductList = new InteractiveProductList(
+            $productListAction,
+            new TextHeader('test header'),
+            new Body('test body'),
+            new Footer('test footer'),
+        );
+        $message = new InteractiveMessage('521111111111', $interactiveProductList);
+
+        $data = $client->sendMessage('0000000000', $message);
+
+        $this->assertEquals('POST', $mockResponse->getRequestMethod());
+        $this->assertEquals('https://graph.facebook.com/v15.0/0000000000/messages', $mockResponse->getRequestUrl());
+
+        $request = $mockResponse->getRequestOptions();
+        $this->assertAuthorization($request);
+        $this->assertJsonRequest('interactive-product-list-message.json', $request);
 
         $this->assertEquals('whatsapp', $data->getMessagingProduct());
 

@@ -1,0 +1,51 @@
+{
+  "messaging_product": "whatsapp",
+  "to": "521111111111",
+  "type": "interactive",
+  "interactive": {
+    "type": "list",
+    "header": {
+      "type": "text",
+      "text": "test header"
+    },
+    "body": {
+      "text": "test body"
+    },
+    "footer": {
+      "text": "test footer"
+    },
+    "action": {
+      "button": "test button",
+      "sections": [
+        {
+          "title": "section-1",
+          "rows": [
+            {
+              "id": "111",
+              "title": "row-1",
+              "description": "test row"
+            },
+            {
+              "id": "222",
+              "title": "row-2"
+            }
+          ]
+        },
+        {
+          "title": "section-2",
+          "rows": [
+            {
+              "id": "333",
+              "title": "row-3",
+              "description": "another test row"
+            },
+            {
+              "id": "444",
+              "title": "row-4"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

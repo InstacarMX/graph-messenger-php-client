@@ -1,0 +1,36 @@
+{
+  "messaging_product": "whatsapp",
+  "to": "521111111111",
+  "type": "interactive",
+  "interactive": {
+    "type": "button",
+    "header": {
+      "type": "text",
+      "text": "test header"
+    },
+    "body": {
+      "text": "test body"
+    },
+    "footer": {
+      "text": "test footer"
+    },
+    "action": {
+      "buttons": [
+        {
+          "type": "reply",
+          "reply": {
+            "id": "111",
+            "title": "test 1"
+          }
+        },
+        {
+          "type": "reply",
+          "reply": {
+            "id": "222",
+            "title": "test 2"
+          }
+        }
+      ]
+    }
+  }
+}
