@@ -6,18 +6,18 @@ namespace Instacar\GraphMessengerApi\WhatsApp\Model;
 
 final class Location
 {
-    private float $longitude;
-
     private float $latitude;
+
+    private float $longitude;
 
     private ?string $name;
 
     private ?string $address;
 
-    public function __construct(float $longitude, float $latitude, string $name = null, string $address = null)
+    public function __construct(float $latitude, float $longitude, string $name = null, string $address = null)
     {
-        $this->longitude = $longitude;
         $this->latitude = $latitude;
+        $this->longitude = $longitude;
         $this->name = $name;
         $this->address = $address;
     }

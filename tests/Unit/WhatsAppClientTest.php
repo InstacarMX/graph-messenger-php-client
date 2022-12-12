@@ -374,7 +374,7 @@ class WhatsAppClientTest extends TestCase
         $mockResponse = new MockResponse('{"messaging_product": "whatsapp", "contacts": [{"input": "521111111111", "wa_id": "1111111111"}], "messages": [{"id": "wamid.abcdef"}]}');
         $client = $this->mockClient($mockResponse);
 
-        $location = new Location(101.01, 202.02, 'My house', '1st street #203');
+        $location = new Location(10.01, 20.02, 'My house', '1st street #203');
         $message = new LocationMessage('521111111111', $location);
 
         $data = $client->sendMessage('0000000000', $message);

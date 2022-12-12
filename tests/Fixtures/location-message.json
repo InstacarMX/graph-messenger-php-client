@@ -3,8 +3,8 @@
   "to": "521111111111",
   "type": "location",
   "location": {
-    "longitude": 101.01,
-    "latitude": 202.02,
+    "latitude": 10.01,
+    "longitude": 20.02,
     "name": "My house",
     "address": "1st street #203"
   }
