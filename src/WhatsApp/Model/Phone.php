@@ -18,7 +18,7 @@ final class Phone
             throw new \LogicException('You must provide at least one of the following parameters: phone, waId');
         }
         if ($type !== null && !\in_array($type, ['CELL', 'MAIN', 'IPHONE', 'HOME', 'WORK'])) {
-            throw new \InvalidArgumentException(sprintf('The type of the Phone must be "CELL", "MAIN", "IPHONE", "HOME" or "WORK", "%s" given.', $type));
+            throw new \InvalidArgumentException(sprintf('The type must be "CELL", "MAIN", "IPHONE", "HOME" or "WORK", "%s" given.', $type));
         }
 
         $this->type = $type;

@@ -11,7 +11,7 @@ final class Footer
     public function __construct(string $text)
     {
         if (\strlen($text) > 60) {
-            throw new \InvalidArgumentException('The text of the footer must be 60 characters or less');
+            throw new \InvalidArgumentException('The text must be 60 characters or less');
         }
 
         $this->text = $text;

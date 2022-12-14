@@ -11,7 +11,7 @@ abstract class Section
     public function __construct(string $title = null)
     {
         if ($title !== null && \strlen($title) > 24) {
-            throw new \InvalidArgumentException('The title of the section must be 24 characters or less');
+            throw new \InvalidArgumentException('The title must be 24 characters or less');
         }
 
         $this->title = $title;

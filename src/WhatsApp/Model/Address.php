@@ -32,11 +32,11 @@ final class Address
         if ($countryCode === null && $country === null && $zip === null && $state === null && $city === null && $street === null) {
             throw new \LogicException('You must provide at least one of the following parameters: countryCode, country, zip, state, city, street');
         }
-        if ($countryCode !== null && strlen($countryCode) !== 2) {
-            throw new \InvalidArgumentException('The country code of the Address must be a 2-letters ISO 3166-1 code');
+        if ($countryCode !== null && \strlen($countryCode) !== 2) {
+            throw new \InvalidArgumentException('The country code must be a 2-letters ISO 3166-1 code');
         }
         if ($type !== null && !\in_array($type, ['HOME', 'WORK'])) {
-            throw new \InvalidArgumentException(sprintf('The type of the Address must be "HOME" or "WORK", "%s" given.', $type));
+            throw new \InvalidArgumentException(sprintf('The type must be "HOME" or "WORK", "%s" given.', $type));
         }
 
         $this->type = $type;

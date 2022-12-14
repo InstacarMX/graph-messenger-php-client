@@ -36,7 +36,7 @@ final class BodyComponent extends Component
 
     public function addParameter(Parameter $parameter): self
     {
-        if ($parameter instanceof TextParameter && strlen($parameter->getText()) > 32768) {
+        if ($parameter instanceof TextParameter && \strlen($parameter->getText()) > 32768) {
             throw new \InvalidArgumentException('The text must be 32,768 characters or less');
         }
 

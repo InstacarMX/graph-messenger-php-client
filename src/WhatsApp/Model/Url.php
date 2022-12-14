@@ -13,7 +13,7 @@ final class Url
     public function __construct(string $url, ?string $type = null)
     {
         if ($type !== null && !\in_array($type, ['HOME', 'WORK'])) {
-            throw new \InvalidArgumentException(sprintf('The type of the Phone must be "HOME" or "WORK", "%s" given.', $type));
+            throw new \InvalidArgumentException(sprintf('The type must be "HOME" or "WORK", "%s" given.', $type));
         }
 
         $this->type = $type;

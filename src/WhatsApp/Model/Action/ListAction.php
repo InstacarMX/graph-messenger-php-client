@@ -19,8 +19,8 @@ final class ListAction extends Action
 
     public function __construct(string $button)
     {
-        if (strlen($button) > 20) {
-            throw new \InvalidArgumentException('The button content of the ListAction must be 20 characters or less');
+        if (\strlen($button) > 20) {
+            throw new \InvalidArgumentException('The button content must be 20 characters or less');
         }
 
         $this->button = $button;

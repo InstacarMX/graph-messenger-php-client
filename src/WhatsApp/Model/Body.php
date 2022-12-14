@@ -11,7 +11,7 @@ final class Body
     public function __construct(string $text)
     {
         if (\strlen($text) > 1024) {
-            throw new \InvalidArgumentException('The text of the body must be 1024 characters or less');
+            throw new \InvalidArgumentException('The text must be 1024 characters or less');
         }
 
         $this->text = $text;

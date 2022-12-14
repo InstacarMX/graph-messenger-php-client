@@ -13,10 +13,10 @@ final class Reply
     public function __construct(string $id, string $title)
     {
         if (\strlen($id) > 256) {
-            throw new \InvalidArgumentException('The id of the button must be 256 characters or less');
+            throw new \InvalidArgumentException('The id button must be 256 characters or less');
         }
         if (\strlen($title) > 20) {
-            throw new \InvalidArgumentException('The title of the button must be 20 characters or less');
+            throw new \InvalidArgumentException('The title button must be 20 characters or less');
         }
 
         $this->id = $id;

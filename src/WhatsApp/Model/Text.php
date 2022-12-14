@@ -12,7 +12,7 @@ final class Text
 
     public function __construct(string $body, bool $previewUrl = null)
     {
-        if (strlen($body) > 4096) {
+        if (\strlen($body) > 4096) {
             throw new \InvalidArgumentException('The text must be 4096 characters or less');
         }
 

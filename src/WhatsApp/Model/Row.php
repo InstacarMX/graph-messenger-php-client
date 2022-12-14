@@ -15,13 +15,13 @@ final class Row
     public function __construct(string $id, string $title, ?string $description = null)
     {
         if (\strlen($id) > 200) {
-            throw new \InvalidArgumentException('The id of the row must be 200 characters or less');
+            throw new \InvalidArgumentException('The id must be 200 characters or less');
         }
         if (\strlen($title) > 24) {
-            throw new \InvalidArgumentException('The title of the row must be 24 characters or less');
+            throw new \InvalidArgumentException('The title must be 24 characters or less');
         }
         if ($description !== null && \strlen($description) > 72) {
-            throw new \InvalidArgumentException('The description of the row must be 72 characters or less');
+            throw new \InvalidArgumentException('The description must be 72 characters or less');
         }
 
         $this->id = $id;
