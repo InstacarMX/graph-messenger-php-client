@@ -12,6 +12,9 @@ final class Email
 
     public function __construct(string $email, ?string $type = null)
     {
+        if (strlen($email) > 320) {
+            throw new \InvalidArgumentException('The email address must be 320 characters or less');
+        }
         if ($type !== null && !\in_array($type, ['HOME', 'WORK'])) {
             throw new \InvalidArgumentException(sprintf('The type of the Email must be "HOME" or "WORK", "%s" given.', $type));
         }

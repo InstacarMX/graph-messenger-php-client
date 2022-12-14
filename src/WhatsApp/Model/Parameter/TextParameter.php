@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Instacar\GraphMessengerApi\WhatsApp\Model\Parameter;
 
-use Instacar\GraphMessengerApi\WhatsApp\Model\Text;
-
 final class TextParameter extends Parameter
 {
-    private Text $text;
+    private string $text;
 
-    public function __construct(Text $text)
+    public function __construct(string $text)
     {
         $this->text = $text;
     }
 
-    public function getText(): Text
+    public function getText(): string
     {
         return $this->text;
     }

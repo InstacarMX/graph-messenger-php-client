@@ -476,7 +476,7 @@ class WhatsAppClientTest extends TestCase
         $bodyComponent = new BodyComponent();
         $bodyComponent->addParameter(new CurrencyParameter(new Currency('MXN', 50.50, '$50.50')));
         $bodyComponent->addParameter(new DateTimeParameter(new DateTime('14 de agosto del 2022')));
-        $bodyComponent->addParameter(new TextParameter(new Text('test message', true)));
+        $bodyComponent->addParameter(new TextParameter('test message'));
         $template->addComponent($bodyComponent);
 
         $quickReplyComponent = new QuickReplyButtonComponent(0);

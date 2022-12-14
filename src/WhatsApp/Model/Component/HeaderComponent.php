@@ -7,6 +7,7 @@ namespace Instacar\GraphMessengerApi\WhatsApp\Model\Component;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Instacar\GraphMessengerApi\WhatsApp\Model\Parameter\Parameter;
+use Instacar\GraphMessengerApi\WhatsApp\Model\Parameter\TextParameter;
 
 final class HeaderComponent extends Component
 {
@@ -35,6 +36,10 @@ final class HeaderComponent extends Component
 
     public function addParameter(Parameter $parameter): self
     {
+        if ($parameter instanceof TextParameter && strlen($parameter->getText()) > 60) {
+            throw new \InvalidArgumentException('The text must be 60 characters or less');
+        }
+
         $this->parameters->add($parameter);
 
         return $this;

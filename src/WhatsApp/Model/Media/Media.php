@@ -15,6 +15,9 @@ abstract class Media
         if ($id === null && $link === null) {
             throw new \LogicException('You must provide a "id" or a "link" parameter');
         }
+        if ($link !== null && !(str_starts_with($link, 'https://') || str_starts_with($link, 'http://'))) {
+            throw new \InvalidArgumentException('The link of the Media must start with https:// or http://');
+        }
 
         $this->id = $id;
         $this->link = $link;

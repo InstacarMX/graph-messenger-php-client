@@ -10,6 +10,10 @@ final class TextHeader extends Header
 
     public function __construct(string $text)
     {
+        if (strlen($text) > 60) {
+            throw new \InvalidArgumentException('The text of the TextHeader must be 60 characters or less');
+        }
+
         $this->text = $text;
     }
 

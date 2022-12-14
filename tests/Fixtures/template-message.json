@@ -71,10 +71,7 @@
           },
           {
             "type": "text",
-            "text": {
-              "body": "test message",
-              "preview_url": true
-            }
+            "text": "test message"
           }
         ]
       },

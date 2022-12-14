@@ -18,6 +18,10 @@ final class Currency
 
     public function __construct(string $code, float $amount, string $fallbackValue)
     {
+        if (strlen($code) !== 3) {
+            throw new \InvalidArgumentException('The Currency code must be a 3-letters ISO 4217 code');
+        }
+
         $this->code = $code;
         $this->amount1000 = (int) round($amount * 1000);
         $this->fallbackValue = $fallbackValue;
