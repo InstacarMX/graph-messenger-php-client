@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Instacar\GraphMessengerApi\Model;
 
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
 final class Error
 {
     private int $code;
@@ -12,24 +14,31 @@ final class Error
 
     private string $message;
 
-    private ?string $details;
+    /**
+     * @phpstan-var array{"messaging_product": string, "details": string}|null
+     */
+    #[SerializedName('error_data')]
+    private ?array $data;
 
     private string $type;
 
     private string $fbtraceId;
 
+    /**
+     * @phpstan-param array{"messaging_product": string, "details": string}|null $data
+     */
     public function __construct(
         int $code,
         string $message,
         string $type,
         string $fbtraceId,
         int $errorSubcode = null,
-        string $details = null,
+        array $data = null,
     ) {
         $this->code = $code;
         $this->errorSubcode = $errorSubcode;
         $this->message = $message;
-        $this->details = $details;
+        $this->data = $data;
         $this->type = $type;
         $this->fbtraceId = $fbtraceId;
     }
@@ -51,7 +60,7 @@ final class Error
 
     public function getDetails(): ?string
     {
-        return $this->details;
+        return $this->data['details'] ?? null;
     }
 
     public function getType(): string

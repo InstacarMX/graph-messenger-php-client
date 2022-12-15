@@ -14,7 +14,7 @@ class GraphException extends \Exception
 
     public function __construct(int $statusCode, Error $error)
     {
-        parent::__construct($error->getMessage(), $error->getCode());
+        parent::__construct($error->getDetails() ?? $error->getMessage(), $error->getCode());
         $this->statusCode = $statusCode;
         $this->error = $error;
     }
