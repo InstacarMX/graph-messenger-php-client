@@ -62,7 +62,6 @@ abstract class GraphClient
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(null));
         $nameConverter = new MetadataAwareNameConverter($classMetadataFactory, new CamelCaseToSnakeCaseNameConverter());
         $propertyTypeExtractor = new ReflectionExtractor();
-        $classDiscriminatorResolver = new ClassDiscriminatorFromClassMetadata($classMetadataFactory);
         $serializer = new Serializer(
             [
                 new DateTimeNormalizer(),
@@ -71,7 +70,7 @@ abstract class GraphClient
                     $nameConverter,
                     null,
                     $propertyTypeExtractor,
-                    $classDiscriminatorResolver,
+                    null,
                     null,
                     [AbstractObjectNormalizer::SKIP_NULL_VALUES => true],
                 ),
